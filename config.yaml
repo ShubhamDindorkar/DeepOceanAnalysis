@@ -1,0 +1,95 @@
+# Deep Sea NCBI Analysis Pipeline Configuration
+
+# Paths
+paths:
+  raw_data: "data/raw"
+  processed_data: "data/processed"
+  embeddings: "data/embeddings"
+  faiss_index: "data/faiss_index"
+  blast_db: "data/blast_db"
+  results: "data/results"
+  clusters: "data/clusters"
+  logs: "logs"
+
+# Model Configuration
+model:
+  name: "zhihan1996/DNABERT-2-117M"  # DNA language model
+  max_length: 512
+  batch_size: 32
+  device: "cuda"  # or "cpu"
+  use_cerebras: false  # Set to true for Cerebras inference
+
+# FAISS Configuration
+faiss:
+  index_type: "IndexFlatIP"  # Options: IndexFlatIP, IndexFlatL2, IVF,PQ
+  metric: "inner_product"    # Options: inner_product, L2
+  nlist: 1024                # For IVF indices
+  nprobe: 10                 # Number of clusters to search
+  use_gpu: false
+
+# Similarity Thresholds
+similarity:
+  known_threshold: 0.82      # Minimum similarity to call as "known"
+  confidence_high: 0.90      # High confidence threshold
+  confidence_medium: 0.75    # Medium confidence threshold
+  top_k: 10                  # Number of top matches to return
+
+# BLAST Configuration
+blast:
+  enabled: true              # Run BLAST verification on high-confidence matches
+  e_value: 1e-5
+  max_target_seqs: 5
+  num_threads: 4
+
+# Clustering Configuration (for unknowns)
+clustering:
+  # UMAP parameters
+  umap:
+    n_neighbors: 15
+    min_dist: 0.1
+    n_components: 2
+    metric: "cosine"
+    random_state: 42
+  
+  # HDBSCAN parameters
+  hdbscan:
+    min_cluster_size: 10
+    min_samples: 5
+    cluster_selection_epsilon: 0.0
+    metric: "euclidean"
+
+# NCBI Configuration
+ncbi:
+  databases:
+    - "nt"      # Nucleotide database
+    - "16S_ribosomal_RNA"
+  email: "your.email@example.com"  # Required for NCBI API
+  max_sequences: 1000
+
+# Exa Configuration
+exa:
+  enabled: true
+  num_results: 5
+  search_type: "neural"      # Options: neural, keyword
+  include_domains: []        # Restrict to specific domains if needed
+
+# Preprocessing
+preprocessing:
+  quality_threshold: 20
+  min_length: 100
+  max_length: 10000
+  remove_duplicates: true
+  dedupe_threshold: 0.99
+
+# Reporting
+reporting:
+  generate_plots: true
+  plot_format: "png"         # Options: png, pdf, svg
+  dpi: 300
+  include_literature: true   # Use Exa to fetch literature
+
+# Logging
+logging:
+  level: "INFO"              # Options: DEBUG, INFO, WARNING, ERROR
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/pipeline.log"

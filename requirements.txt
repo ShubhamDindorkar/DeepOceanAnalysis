@@ -1,0 +1,44 @@
+# Core Dependencies
+torch>=2.0.0
+transformers>=4.30.0
+biopython>=1.81
+
+# Vector Search & Indexing
+faiss-cpu>=1.7.4  # Use faiss-gpu for GPU support
+
+# Clustering & Dimensionality Reduction
+umap-learn>=0.5.3
+hdbscan>=0.8.33
+
+# Data Processing
+numpy>=1.24.0
+pandas>=2.0.0
+scipy>=1.10.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+plotly>=5.14.0
+
+# API Clients
+exa-py>=1.0.0
+requests>=2.31.0
+python-dotenv>=1.0.0
+
+# Configuration
+pyyaml>=6.0
+
+# Bioinformatics Tools
+blast>=2.14.0  # Install via conda: conda install -c bioconda blast
+
+# Utilities
+tqdm>=4.65.0
+loguru>=0.7.0
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+
+# Jupyter
+jupyter>=1.0.0
+ipywidgets>=8.0.0
