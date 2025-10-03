@@ -1,0 +1,139 @@
+# NeuThera Drug Discovery Configuration
+
+# Model Paths & Settings
+models:
+  # ChemBERTa for molecular embeddings
+  chemberta:
+    name: "seyonec/ChemBERTa-zinc-base-v1"
+    embedding_dim: 768
+    device: "cpu"  # or "cuda"
+  
+  # TamGen for molecular generation
+  tamgen:
+    checkpoint: "checkpoints/crossdock_pdb_A10/checkpoint_best.pt"
+    data_path: "./TamGen_Demo_Data"
+    use_conditional: true
+    temperature: 1.0
+    beam_size: 5
+  
+  # DeepPurpose for DTI prediction
+  deeppurpose:
+    architecture: "CNN_CNN"  # Options: CNN_CNN, Transformer_CNN, etc.
+    pretrained: true
+    device: "cpu"
+
+# Database Configuration
+database:
+  arango:
+    host: "http://localhost:8529"
+    database: "NeuThera"
+    username: "root"
+    password: "openSesame"
+  
+  collections:
+    drugs: "drug"
+    proteins: "protein"
+    diseases: "disease"
+    links: "drug-protein"
+
+# Molecular Generation Settings
+generation:
+  # TamGen parameters
+  num_seeds: 10
+  num_samples_per_seed: 100
+  total_candidates: 1000
+  
+  # Filtering
+  max_molecular_weight: 500
+  min_qed: 0.5  # Drug-likeness threshold
+  min_sa_score: 0.3  # Synthetic accessibility
+  
+  # Docking validation
+  docking_enabled: true
+  max_docking_time: 60  # seconds per compound
+
+# Similarity Search
+similarity:
+  method: "chemberta"  # Options: chemberta, morgan_fingerprint, maccs
+  metric: "cosine"  # Options: cosine, tanimoto
+  threshold: 0.5  # Minimum similarity for matches
+  top_k: 10  # Number of similar compounds to return
+  
+  # Fingerprint settings (if used)
+  fingerprint:
+    type: "morgan"  # Options: morgan, maccs, rdkit
+    radius: 2
+    n_bits: 2048
+
+# Binding Affinity Prediction
+binding_affinity:
+  threshold_high: 8.0  # pKd > 8: Strong binding
+  threshold_medium: 7.0  # pKd > 7: Medium binding
+  threshold_low: 6.0  # pKd > 6: Weak binding
+  batch_size: 32
+
+# ADMET Properties (future)
+admet:
+  lipinski_rule_of_five: true
+  veber_rules: true
+  custom_filters:
+    - "molecular_weight < 500"
+    - "logP < 5"
+    - "h_bond_donors <= 5"
+    - "h_bond_acceptors <= 10"
+
+# Agent & LLM Settings
+agent:
+  llm_provider: "google"  # Options: google, openai, anthropic
+  model_name: "gemini-1.5-flash"
+  temperature: 0.7
+  max_tokens: 2000
+  
+  # Tool calling
+  max_tool_iterations: 10
+  enable_memory: true
+  memory_type: "sqlite"  # Options: sqlite, redis
+  
+  # Context management
+  max_context_tokens: 8000
+  summarize_after: 10  # messages
+
+# Visualization
+visualization:
+  molecule_2d:
+    size: [400, 400]
+    highlight_atoms: true
+  
+  molecule_3d:
+    size: [800, 600]
+    style: "stick"  # Options: stick, sphere, cartoon
+    show_surface: false
+  
+  graph:
+    layout: "force"  # Options: force, hierarchical, circular
+    max_nodes: 100
+    max_edges: 200
+
+# Logging & Monitoring
+logging:
+  level: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR
+  file: "logs/neuthera.log"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  
+  # Track tool usage
+  track_tool_calls: true
+  track_generation_metrics: true
+
+# Performance
+performance:
+  cache_embeddings: true
+  cache_ttl: 3600  # seconds
+  max_workers: 4  # for parallel processing
+  batch_processing: true
+
+# Experimental Features
+experimental:
+  enable_feedback_loop: false  # Iterative optimization
+  enable_scaffold_hopping: false
+  enable_retrosynthesis: false
+  use_gnn_for_predictions: false

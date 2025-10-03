@@ -1,0 +1,18 @@
+🌊 Initial release: AquaGenomeAI - Deep-Sea Genomic Analysis Platform
+
+AI-powered platform for analyzing deep-sea genomic sequences with DNABERT-2, FAISS, and ArangoDB.
+
+Features:
+- DNABERT-2 embeddings for sequence analysis
+- FAISS vector similarity search
+- UMAP + HDBSCAN clustering for novel species discovery
+- ArangoDB graph database with vector indexing
+- LangChain agent with 10 genomic tools
+- Streamlit web interface with conversational AI
+- NCBI integration and literature search
+
+Tools: GetDNABERTEmbedding, FindSequence, FindTaxaFromSequence, FindSimilarSequences, 
+ClusterUnknowns, FetchNCBISequences, PrepareSequenceData, PlotSequenceAlignment, 
+SearchLiterature, TextToAQL
+
+Tech: Python, DNABERT-2, FAISS, ArangoDB, LangChain, Google Gemini, Streamlit, BioPython

@@ -19,11 +19,14 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+pip-wheel-metadata/
 
 # Virtual environments
 venv/
 ENV/
 env/
+dti_env/
+deepsea_env/
 
 # IDEs
 .vscode/
@@ -31,37 +34,197 @@ env/
 *.swp
 *.swo
 *~
+.project
+.pydevproject
 
-# Jupyter
+# Jupyter Notebooks
 .ipynb_checkpoints/
 *.ipynb_checkpoints
+.jupyter/
+*.nb.html
 
-# Environment variables
+# Environment variables & API Keys
 .env
 .env.local
+.env.*.local
+*.key
 
-# Data (do not commit large datasets)
-data/raw/*
-data/processed/*
-data/embeddings/*
-data/faiss_index/*
-data/blast_db/*
-data/results/*
-data/clusters/*
+# Deep-Sea Sequence Data (large files)
+data/raw/*.fasta
+data/raw/*.fastq
+data/raw/*.fa
+data/raw/*.fq
+data/raw/*.fastq.gz
+data/raw/*.fasta.gz
+data/processed/*.fasta
+data/processed/*.fastq
+data/processed/*_cleaned.*
+data/processed/*_filtered.*
 
-# Keep directory structure
+# Embeddings (large numpy arrays)
+data/embeddings/*.npy
+data/embeddings/*.npz
+data/embeddings/*.h5
+data/embeddings/*.hdf5
+
+# FAISS Indices
+data/faiss_index/*.faiss
+data/faiss_index/*.index
+data/faiss_index/*.metadata.pkl
+data/faiss_index/*.bin
+
+# BLAST Databases (very large)
+data/blast_db/**/*.nin
+data/blast_db/**/*.nhr
+data/blast_db/**/*.nsq
+data/blast_db/**/*.ndb
+data/blast_db/**/*.not
+data/blast_db/**/*.ntf
+data/blast_db/**/*.nto
+data/blast_db/**/*.nal
+data/blast_db/**/*.pin
+data/blast_db/**/*.phr
+data/blast_db/**/*.psq
+data/blast_db/nt.*
+data/blast_db/nr.*
+data/blast_db/*.tar.gz
+
+# NCBI Downloads
+data/raw/ncbi_*.fasta
+data/raw/genbank_*.fasta
+data/raw/silva_*.fasta
+*.gbk
+*.gb
+
+# Results & Analysis Outputs
+data/results/**/*.csv
+data/results/**/*.html
+data/results/**/*.pdf
+data/results/**/*.png
+data/results/**/*.jpg
+data/results/**/*.svg
+data/results/**/*.json
+data/results/**/blast_*.xml
+
+# Cluster Results
+data/clusters/**/*.csv
+data/clusters/**/*.png
+data/clusters/**/*.pdf
+data/clusters/**/*.npy
+
+# Keep directory structure with .gitkeep
 !data/*/.gitkeep
+!data/**/.gitkeep
 
 # Logs
 logs/*.log
+logs/**/*.log
 *.log
+*.log.*
 
-# OS
-.DS_Store
-Thumbs.db
+# Checkpoints & Model Weights
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+models/downloaded/
 
 # Temporary files
 *.tmp
 *.temp
 tmp/
 temp/
+*.cache
+*.bak
+*.swp
+
+# Compressed archives (except specific reference data)
+*.gz
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.bz2
+*.7z
+*.rar
+
+# Allow specific reference databases (if you want to commit small ones)
+# Uncomment if you have small reference files to track
+# !data/references/*.fasta.gz
+# !data/references/*.csv.gz
+
+# OS-specific
+.DS_Store
+Thumbs.db
+desktop.ini
+*.lnk
+
+# Coverage & Testing
+.coverage
+.pytest_cache/
+htmlcov/
+.tox/
+.nox/
+
+# Profiling
+*.prof
+*.lprof
+
+# Documentation builds
+docs/_build/
+docs/.doctrees/
+
+# Gradio & Web UI
+.gradio/
+gradio_cached_examples/
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+chat_history.db
+
+# Large visualization files
+*.html
+!data/results/.gitkeep
+graph.html
+
+# Cerebras & API outputs
+cerebras_outputs/
+api_cache/
+
+# Exa search cache
+exa_cache/
+
+# Training runs
+runs/
+experiments/
+wandb/
+mlruns/
+
+# Large alignment files
+*.sam
+*.bam
+*.bai
+*.bed
+*.vcf
+*.gff
+*.gtf
+
+# Sequence quality control outputs
+*_fastqc.html
+*_fastqc.zip
+*.qc.txt
+
+# Assembly outputs (can be very large)
+data/assembly/**/*.fasta
+data/assembly/**/*.gfa
+data/assembly/**/*.graph
+contigs.fasta
+scaffolds.fasta
+
+# Don't ignore small example/test data
+!data/raw/example_*.fasta
+!data/raw/test_*.fasta
+!tests/fixtures/*.fasta
